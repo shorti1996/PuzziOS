@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,11 +13,32 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Puzz" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sFy-Lk-oTu">
+                                <rect key="frame" x="16" y="460" width="46" height="21"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <imageView alpha="0.25" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="peony_small2" translatesAutoresizingMaskIntoConstraints="NO" id="e3g-uJ-6Wi">
+                                <rect key="frame" x="8" y="65" width="359" height="359"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="e3g-uJ-6Wi" secondAttribute="height" multiplier="1:1" id="aO8-rG-ara"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="sFy-Lk-oTu" secondAttribute="bottom" constant="186" id="9Lu-3f-wQ9"/>
+                            <constraint firstItem="e3g-uJ-6Wi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="45" id="Asi-pz-RF1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="sFy-Lk-oTu" secondAttribute="trailing" symbolic="YES" id="IYv-Zu-rH3"/>
+                            <constraint firstItem="e3g-uJ-6Wi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="alt-A1-KFS"/>
+                            <constraint firstItem="sFy-Lk-oTu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="fRk-aR-bke"/>
+                            <constraint firstItem="e3g-uJ-6Wi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uoy-un-dm2"/>
+                            <constraint firstItem="sFy-Lk-oTu" firstAttribute="top" secondItem="e3g-uJ-6Wi" secondAttribute="bottom" constant="36" id="zf1-hu-5fz"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -21,4 +46,7 @@
             </objects>
         </scene>
     </scenes>
+    <resources>
+        <image name="peony_small2" width="800" height="800"/>
+    </resources>
 </document>

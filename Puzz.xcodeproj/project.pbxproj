@@ -10,10 +10,10 @@
 		FE9E8D6D2189D9B400C6D3B0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E8D6C2189D9B400C6D3B0 /* AppDelegate.swift */; };
 		FE9E8D6F2189D9B400C6D3B0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E8D6E2189D9B400C6D3B0 /* ViewController.swift */; };
 		FE9E8D722189D9B400C6D3B0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE9E8D702189D9B400C6D3B0 /* Main.storyboard */; };
-		FE9E8D742189D9B500C6D3B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE9E8D732189D9B500C6D3B0 /* Assets.xcassets */; };
 		FE9E8D772189D9B500C6D3B0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE9E8D752189D9B500C6D3B0 /* LaunchScreen.storyboard */; };
 		FE9E8D822189D9B500C6D3B0 /* PuzzTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E8D812189D9B500C6D3B0 /* PuzzTests.swift */; };
 		FE9E8D8D2189D9B600C6D3B0 /* PuzzUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E8D8C2189D9B600C6D3B0 /* PuzzUITests.swift */; };
+		FE9E8D9B2189F9E100C6D3B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE9E8D732189D9B500C6D3B0 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -230,7 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FE9E8D772189D9B500C6D3B0 /* LaunchScreen.storyboard in Resources */,
-				FE9E8D742189D9B500C6D3B0 /* Assets.xcassets in Resources */,
+				FE9E8D9B2189F9E100C6D3B0 /* Assets.xcassets in Resources */,
 				FE9E8D722189D9B400C6D3B0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
