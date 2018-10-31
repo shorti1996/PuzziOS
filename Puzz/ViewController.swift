@@ -12,14 +12,18 @@ class ViewController: UIViewController {
     
     let cols = 4
     let rows = 4
-    let questionImageArray = [#imageLiteral(resourceName: "p_01")]
+    
+    let puzzleSnapTolerance = CGFloat(20)
+    
     var bigImage: UIImageView? = nil
+    var puzzleBox: UIView? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         bigImage = self.view.viewWithTag(1) as? UIImageView
-
+        puzzleBox = self.view.viewWithTag(1)
+        
         let pieces = splitImage(bigImage)
         
         for p in pieces {
@@ -32,10 +36,22 @@ class ViewController: UIViewController {
 
     @objc func wasDragged(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self.view)
-        let label = gesture.view!
+        let draggedPuzzleView = gesture.view! as! PuzzlePiece
         
-        label.center = CGPoint(x: label.center.x + translation.x, y: label.center.y + translation.y)
-        gesture.setTranslation(CGPoint.zero, in: self.view)
+        if (draggedPuzzleView.isDraggable) {
+            draggedPuzzleView.superview?.bringSubviewToFront(draggedPuzzleView)
+            draggedPuzzleView.center = CGPoint(x: draggedPuzzleView.center.x + translation.x, y: draggedPuzzleView.center.y + translation.y)
+            gesture.setTranslation(CGPoint.zero, in: self.view)
+        }
+        
+        if (gesture.state == UIGestureRecognizer.State.ended) {
+            if (abs(draggedPuzzleView.frame.minX - draggedPuzzleView.targetX) <= puzzleSnapTolerance
+                && abs(draggedPuzzleView.frame.minY - draggedPuzzleView.targetY) <= puzzleSnapTolerance) {
+                draggedPuzzleView.frame = CGRect(x: draggedPuzzleView.targetX, y: draggedPuzzleView.targetY, width: draggedPuzzleView.frame.width, height: draggedPuzzleView.frame.height)
+                draggedPuzzleView.isDraggable = false
+                draggedPuzzleView.removeGestureRecognizer(gesture)
+            }
+        }
     }
     
     func splitImage(_ imageView: UIImageView?) -> [PuzzlePiece] {

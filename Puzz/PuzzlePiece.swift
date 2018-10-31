@@ -11,6 +11,7 @@ import Foundation
 class PuzzlePiece : UIImageView {
     public var targetX = CGFloat(0.0)
     public var targetY = CGFloat(0.0)
+    public var isDraggable = true
     
     init(frame: CGRect, targetX: CGFloat, targetY: CGFloat) {
         super.init(frame: frame)
