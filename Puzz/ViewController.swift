@@ -65,10 +65,23 @@ class ViewController: UIViewController {
         
         for r in 0..<rows {
             for c in 0..<cols {
-                let cropBounds = CGRect(x: CGFloat(r) * cropWidth, y: CGFloat(c) * cropHeight, width: cropWidth, height: cropHeight)
+                var cropOffsetX = CGFloat(0)
+                var cropOffsetY = CGFloat(0)
+                var viewOffsetX = CGFloat(0)
+                var viewOffsetY = CGFloat(0)
+                if (r > 0) {
+                    cropOffsetX = cropWidth / 3
+                    viewOffsetX = singlePieceWidth / 3
+                }
+                if (c > 0) {
+                    cropOffsetY = cropHeight / 3
+                    viewOffsetY = singlePieceHeight / 3
+                }
+                
+                let cropBounds = CGRect(x: CGFloat(r) * cropWidth - cropOffsetX, y: CGFloat(c) * cropHeight - cropOffsetY, width: cropWidth + cropOffsetX, height: cropHeight + cropOffsetY)
                 let cropped = image?.cgImage?.cropping(to: cropBounds)
                 
-                let viewBounds = CGRect(x: imageView!.frame.minX + CGFloat(r) * singlePieceWidth, y: imageView!.frame.minY + CGFloat(c) * singlePieceHeight, width: singlePieceWidth, height: singlePieceHeight)
+                let viewBounds = CGRect(x: imageView!.frame.minX - viewOffsetX + CGFloat(r) * singlePieceWidth, y: imageView!.frame.minY - viewOffsetY + CGFloat(c) * singlePieceHeight, width: singlePieceWidth + viewOffsetX, height: singlePieceHeight + viewOffsetY)
                 let pieceUIImageView = PuzzlePiece(frame: viewBounds, targetX: viewBounds.minX, targetY: viewBounds.minY)
                 pieceUIImageView.image = UIImage(cgImage: cropped!)
                 
