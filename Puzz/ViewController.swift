@@ -42,14 +42,18 @@ class ViewController: UIViewController {
         var pieces: [PuzzlePiece] = []
         
         let image = imageView!.image
+        let cropWidth = image!.size.width / CGFloat(cols)
+        let cropHeight = image!.size.height / CGFloat(rows)
         let singlePieceWidth = imageView!.frame.size.width / CGFloat(cols)
         let singlePieceHeight = imageView!.frame.size.height / CGFloat(rows)
         
         for r in 0..<rows {
             for c in 0..<cols {
-                let bounds = CGRect(x: CGFloat(r) * singlePieceWidth, y: CGFloat(c) * singlePieceHeight, width: singlePieceWidth, height: singlePieceHeight)
-                let cropped = image?.cgImage?.cropping(to: bounds)
-                let pieceUIImageView = PuzzlePiece(frame: bounds, targetX: bounds.minX, targetY: bounds.minY)
+                let cropBounds = CGRect(x: CGFloat(r) * cropWidth, y: CGFloat(c) * cropHeight, width: cropWidth, height: cropHeight)
+                let cropped = image?.cgImage?.cropping(to: cropBounds)
+                
+                let viewBounds = CGRect(x: CGFloat(r) * singlePieceWidth, y: CGFloat(c) * singlePieceHeight, width: singlePieceWidth, height: singlePieceHeight)
+                let pieceUIImageView = PuzzlePiece(frame: viewBounds, targetX: viewBounds.minX, targetY: viewBounds.minY)
                 pieceUIImageView.image = UIImage(cgImage: cropped!)
                 
                 pieces.append(pieceUIImageView)
