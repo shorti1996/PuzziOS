@@ -52,7 +52,7 @@ class ViewController: UIViewController {
                 let cropBounds = CGRect(x: CGFloat(r) * cropWidth, y: CGFloat(c) * cropHeight, width: cropWidth, height: cropHeight)
                 let cropped = image?.cgImage?.cropping(to: cropBounds)
                 
-                let viewBounds = CGRect(x: CGFloat(r) * singlePieceWidth, y: CGFloat(c) * singlePieceHeight, width: singlePieceWidth, height: singlePieceHeight)
+                let viewBounds = CGRect(x: imageView!.frame.minX + CGFloat(r) * singlePieceWidth, y: imageView!.frame.minY + CGFloat(c) * singlePieceHeight, width: singlePieceWidth, height: singlePieceHeight)
                 let pieceUIImageView = PuzzlePiece(frame: viewBounds, targetX: viewBounds.minX, targetY: viewBounds.minY)
                 pieceUIImageView.image = UIImage(cgImage: cropped!)
                 
