@@ -9,6 +9,16 @@ import UIKit
 import Foundation
 
 class PuzzlePiece : UIImageView {
-    public var targetX = 0.0
-    public var targetY = 0.0
+    public var targetX = CGFloat(0.0)
+    public var targetY = CGFloat(0.0)
+    
+    init(frame: CGRect, targetX: CGFloat, targetY: CGFloat) {
+        super.init(frame: frame)
+        self.targetX = targetX
+        self.targetY = targetY
+    }
+    
+    required init(coder decoder: NSCoder) {
+        super.init(coder: decoder)!
+    }
 }

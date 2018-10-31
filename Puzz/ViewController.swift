@@ -19,18 +19,15 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         bigImage = self.view.viewWithTag(1) as? UIImageView
-        let singlePieceRect = CGRect(x: 0, y: 0, width: bigImage!.frame.width / CGFloat(cols), height: bigImage!.frame.height / CGFloat(rows))
+
+        let pieces = splitImage(bigImage)
         
-        let piece = UIImageView(frame: CGRect(x: self.view.bounds.width / 2, y: self.view.bounds.height / 2, width: singlePieceRect.width, height: singlePieceRect.height))
-//        piece.image = questionImageArray[0]
-        let aa = UIImage(cgImage: splitImage(bigImage)!)
-        piece.image = aa
-        self.view.addSubview(piece)
-        
-        let gesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.wasDragged(_:)))
-        piece.addGestureRecognizer(gesture)
-        
-        piece.isUserInteractionEnabled = true
+        for p in pieces {
+            self.view.addSubview(p)
+            let gesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.wasDragged(_:)))
+            p.addGestureRecognizer(gesture)
+            p.isUserInteractionEnabled = true
+        }
     }
 
     @objc func wasDragged(_ gesture: UIPanGestureRecognizer) {
@@ -41,19 +38,24 @@ class ViewController: UIViewController {
         gesture.setTranslation(CGPoint.zero, in: self.view)
     }
     
-    func splitImage(_ imageView: UIImageView?) -> CGImage? {
+    func splitImage(_ imageView: UIImageView?) -> [PuzzlePiece] {
+        var pieces: [PuzzlePiece] = []
+        
         let image = imageView!.image
-        let singlePieceWidth = image!.size.width / CGFloat(cols)
-        let singlePieceHeight = image!.size.height / CGFloat(rows)
+        let singlePieceWidth = imageView!.frame.size.width / CGFloat(cols)
+        let singlePieceHeight = imageView!.frame.size.height / CGFloat(rows)
         
         for r in 0..<rows {
             for c in 0..<cols {
                 let bounds = CGRect(x: CGFloat(r) * singlePieceWidth, y: CGFloat(c) * singlePieceHeight, width: singlePieceWidth, height: singlePieceHeight)
                 let cropped = image?.cgImage?.cropping(to: bounds)
-                return cropped
+                let pieceUIImageView = PuzzlePiece(frame: bounds, targetX: bounds.minX, targetY: bounds.minY)
+                pieceUIImageView.image = UIImage(cgImage: cropped!)
+                
+                pieces.append(pieceUIImageView)
             }
         }
-        return nil
+        return pieces
     }
 
 }
