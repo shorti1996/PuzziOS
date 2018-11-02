@@ -17,12 +17,18 @@ class ViewController: UIViewController {
     
     var bigImage: UIImageView? = nil
     var puzzleBox: UIView? = nil
+    
+    var selectedImage: UIImage?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         bigImage = self.view.viewWithTag(1) as? UIImageView
         puzzleBox = self.view.viewWithTag(2)
+        
+        if (selectedImage != nil) {
+            bigImage?.image = selectedImage
+        }
         
         let pieces = splitImage(bigImage)
         
