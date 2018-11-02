@@ -24,9 +24,9 @@
                                     <constraint firstAttribute="width" secondItem="e3g-uJ-6Wi" secondAttribute="height" multiplier="1:1" id="aO8-rG-ara"/>
                                 </constraints>
                             </imageView>
-                            <view tag="2" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="796-PI-RHM">
-                                <rect key="frame" x="8" y="432" width="359" height="215"/>
-                                <color key="backgroundColor" red="0.96342024871104737" green="0.96342024871104737" blue="0.96342024871104737" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <view tag="2" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="796-PI-RHM">
+                                <rect key="frame" x="8" y="444" width="359" height="203"/>
+                                <color key="backgroundColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
                                 </accessibility>
@@ -34,13 +34,15 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="796-PI-RHM" firstAttribute="top" secondItem="e3g-uJ-6Wi" secondAttribute="bottom" constant="20" id="1hg-zm-eVy"/>
                             <constraint firstItem="e3g-uJ-6Wi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="45" id="Asi-pz-RF1"/>
                             <constraint firstItem="e3g-uJ-6Wi" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="8" id="alt-A1-KFS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="796-PI-RHM" secondAttribute="bottom" constant="20" id="bdl-6w-5x3"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="796-PI-RHM" secondAttribute="trailing" constant="8" id="btU-tj-c5q"/>
                             <constraint firstItem="796-PI-RHM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gY3-GV-J9m"/>
                             <constraint firstItem="796-PI-RHM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="kMG-du-lXv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="796-PI-RHM" secondAttribute="bottom" constant="20" id="m2E-6J-Fzr"/>
                             <constraint firstItem="e3g-uJ-6Wi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="uoy-un-dm2"/>
-                            <constraint firstItem="796-PI-RHM" firstAttribute="top" secondItem="e3g-uJ-6Wi" secondAttribute="bottom" constant="8" id="x52-Vj-CE2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -51,6 +53,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="peony_small2" width="800" height="800"/>
+        <image name="peony_small2" width="192" height="192"/>
     </resources>
 </document>

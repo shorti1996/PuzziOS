@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         bigImage = self.view.viewWithTag(1) as? UIImageView
-        puzzleBox = self.view.viewWithTag(1)
+        puzzleBox = self.view.viewWithTag(2)
         
         let pieces = splitImage(bigImage)
         
@@ -31,6 +31,8 @@ class ViewController: UIViewController {
             let gesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.wasDragged(_:)))
             p.addGestureRecognizer(gesture)
             p.isUserInteractionEnabled = true
+//            let randomPositionInPuzzleBox =
+            p.frame = CGRect(origin: randomizePosition(viewFrame: p.frame, parentViewFrame: (puzzleBox?.frame)!), size: p.frame.size)
         }
     }
 
@@ -161,6 +163,16 @@ func makePuzzlePath(r: Int,
     }
     path.closeSubpath()
     return path
+}
+
+func randomizePosition(viewFrame: CGRect, parentViewFrame: CGRect) -> CGPoint {
+    let minX = parentViewFrame.minX
+    let minY = parentViewFrame.minY
+    let maxX = parentViewFrame.maxX - viewFrame.width
+    let maxY = parentViewFrame.maxY - viewFrame.height
+    
+    return CGPoint(x: CGFloat.random(in: minX..<maxX),
+                   y: CGFloat.random(in: minY..<maxY))
 }
 
 extension UIView {
