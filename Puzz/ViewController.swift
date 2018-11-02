@@ -93,10 +93,10 @@ class ViewController: UIViewController {
                     path.addLine(to: CGPoint(x: pieceUIImageView.frame.width, y: viewOffsetY))
                 } else {
                     // top bump
-                    path.addLine(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) / 3, y: viewOffsetY))
-                    path.addCurve(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) / 6, y: viewOffsetY) ,
-                                  control1: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) / 6 * 5, y: viewOffsetY - bumpSize),
-                                  control2: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) / 6, y: viewOffsetY - bumpSize))
+                    path.addLine(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 1 / 3, y: viewOffsetY))
+                    path.addCurve(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 2 / 3, y: viewOffsetY) ,
+                                  control1: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 1 / 6, y: viewOffsetY + bumpSize),
+                                  control2: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 5 / 6, y: viewOffsetY + bumpSize))
 //                    path.cubicTo(
 //                    offsetX + (pieceBitmap.getWidth() - offsetX) / 6,
 //                    offsetY - bumpSize,
@@ -123,17 +123,17 @@ class ViewController: UIViewController {
 //                        offsetY + (pieceBitmap.getHeight() - offsetY) / 6 * 5,
 //                        pieceBitmap.getWidth(),
 //                        offsetY + (pieceBitmap.getHeight() - offsetY) / 3 * 2);
-                    path.addLine(to: CGPoint(x: pieceUIImageView.frame.width, y: -pieceUIImageView.frame.height))
+                    path.addLine(to: CGPoint(x: pieceUIImageView.frame.width, y: -singlePieceHeight + viewOffsetY))
                 }
                 if (r == rows - 1) {
                     // bottom side piece
-                    path.addLine(to: CGPoint(x: viewOffsetX, y: -pieceUIImageView.frame.height))
+                    path.addLine(to: CGPoint(x: viewOffsetX, y: -pieceUIImageView.frame.height + viewOffsetY))
                 } else {
                     // bottom bump
-                    path.addLine(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 2 / 3, y: -pieceUIImageView.frame.height))
-                    path.addCurve(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 1 / 3, y: -pieceUIImageView.frame.height),
-                                  control1: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 5 / 6, y: -(pieceUIImageView.frame.height - bumpSize)),
-                                  control2: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 1 / 6, y: -(pieceUIImageView.frame.height - bumpSize)))
+                    path.addLine(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 2 / 3, y: -singlePieceHeight + viewOffsetY))
+                    path.addCurve(to: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 1 / 3, y: -singlePieceHeight + viewOffsetY),
+                                  control1: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 5 / 6, y: -singlePieceHeight + viewOffsetY + bumpSize),
+                                  control2: CGPoint(x: viewOffsetX + (pieceUIImageView.frame.width - viewOffsetX) * 1 / 6, y: -singlePieceHeight + viewOffsetY + bumpSize))
 
 //                    path.cubicTo(
 //                        offsetX + (pieceBitmap.getWidth() - offsetX) / 6 * 5,
@@ -143,7 +143,7 @@ class ViewController: UIViewController {
 //                        offsetX + (pieceBitmap.getWidth() - offsetX) / 3,
 //                        pieceBitmap.getHeight());
 
-                    path.addLine(to: CGPoint(x: viewOffsetX, y: -pieceUIImageView.frame.height))
+                    path.addLine(to: CGPoint(x: viewOffsetX, y: -singlePieceHeight + viewOffsetY))
                 }
                 if (c == 0) {
                     // left side piece
@@ -165,19 +165,23 @@ class ViewController: UIViewController {
                 path.closeSubpath()
                 let uiPath = UIBezierPath(cgPath: path)
                 let mask = CAShapeLayer()
-                mask.path = path
+//                mask.path = path
 //                mask.frame = CGRect(origin: CGPoint(x: pieceUIImageView.frame.minX - viewOffsetX, y: -viewOffsetY), size: mask.frame.size)
 //                mask.frame = CGRect(x: pieceUIImageView.frame.minX - (bigImage?.frame.minX)!, y: pieceUIImageView.frame.minY + (bigImage?.frame.minY)!, width: path.boundingBox.width, height: path.boundingBox.height)
 //                mask.frame = CGRect(x: pieceUIImageView.frame.minX, y: -pieceUIImageView.frame.maxY, width: 0, height: 0)
 //                path.append(UIBezierPath(rect: self.bounds))
-//                uiPath.apply(CGAffineTransform(translationX: 0, y: pieceUIImageView.frame.maxY - 20))
+//                uiPath.apply(CGAffineTransform(translationX: 0, y: 0))
                 uiPath.apply(CGAffineTransform(scaleX: 1, y: -1))
-//                mask.path = uiPath.cgPath
+                if(r > 0) {
+                    uiPath.apply(CGAffineTransform(translationX: 0, y: singlePieceHeight - viewOffsetY))
+                }
+                mask.path = uiPath.cgPath
                 mask.fillRule = CAShapeLayerFillRule.evenOdd
-
+//                mask.frame = viewBounds
+                
                 // Add the mask to the view
-//                pieceUIImageView.layer.mask = mask
-                pieceUIImageView.mask(withPath: uiPath, inverse: false)
+                pieceUIImageView.layer.mask = mask
+//                pieceUIImageView.mask(withPath: uiPath, inverse: false)
                 pieces.append(pieceUIImageView)
 //                return pieces
             }
