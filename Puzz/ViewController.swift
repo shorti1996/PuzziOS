@@ -37,7 +37,6 @@ class ViewController: UIViewController {
             let gesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.wasDragged(_:)))
             p.addGestureRecognizer(gesture)
             p.isUserInteractionEnabled = true
-//            let randomPositionInPuzzleBox =
             p.frame = CGRect(origin: randomizePosition(viewFrame: p.frame, parentViewFrame: (puzzleBox?.frame)!), size: p.frame.size)
         }
     }
@@ -105,7 +104,6 @@ class ViewController: UIViewController {
                 mask.fillRule = CAShapeLayerFillRule.evenOdd
                 pieceUIImageView.layer.mask = mask
                 pieces.append(pieceUIImageView)
-//                return pieces
             }
         }
         return pieces
@@ -182,7 +180,6 @@ func randomizePosition(viewFrame: CGRect, parentViewFrame: CGRect) -> CGPoint {
 }
 
 extension UIView {
-    
     func mask(withRect rect: CGRect, inverse: Bool = false) {
         let path = UIBezierPath(rect: rect)
         let maskLayer = CAShapeLayer()
