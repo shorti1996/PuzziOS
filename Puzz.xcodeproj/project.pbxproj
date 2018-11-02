@@ -14,6 +14,7 @@
 		FE9E8D822189D9B500C6D3B0 /* PuzzTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E8D812189D9B500C6D3B0 /* PuzzTests.swift */; };
 		FE9E8D8D2189D9B600C6D3B0 /* PuzzUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9E8D8C2189D9B600C6D3B0 /* PuzzUITests.swift */; };
 		FE9E8D9B2189F9E100C6D3B0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE9E8D732189D9B500C6D3B0 /* Assets.xcassets */; };
+		FEADE168218CC0F80021DBA9 /* ImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEADE167218CC0F80021DBA9 /* ImagesCollectionViewController.swift */; };
 		FEC2A11D218A081100F164AF /* PuzzlePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEC2A11C218A081100F164AF /* PuzzlePiece.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,7 @@
 		FE9E8D882189D9B600C6D3B0 /* PuzzUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuzzUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE9E8D8C2189D9B600C6D3B0 /* PuzzUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzUITests.swift; sourceTree = "<group>"; };
 		FE9E8D8E2189D9B600C6D3B0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FEADE167218CC0F80021DBA9 /* ImagesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewController.swift; sourceTree = "<group>"; };
 		FEC2A11C218A081100F164AF /* PuzzlePiece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzlePiece.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -106,6 +108,7 @@
 				FE9E8D752189D9B500C6D3B0 /* LaunchScreen.storyboard */,
 				FE9E8D782189D9B500C6D3B0 /* Info.plist */,
 				FEC2A11C218A081100F164AF /* PuzzlePiece.swift */,
+				FEADE167218CC0F80021DBA9 /* ImagesCollectionViewController.swift */,
 			);
 			path = Puzz;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			files = (
 				FE9E8D6F2189D9B400C6D3B0 /* ViewController.swift in Sources */,
 				FE9E8D6D2189D9B400C6D3B0 /* AppDelegate.swift in Sources */,
+				FEADE168218CC0F80021DBA9 /* ImagesCollectionViewController.swift in Sources */,
 				FEC2A11D218A081100F164AF /* PuzzlePiece.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
