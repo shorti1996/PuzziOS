@@ -28,7 +28,6 @@ class ImagesCollectionViewController: UICollectionViewController {
         }
     }
     
-    //1
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -39,12 +38,10 @@ class ImagesCollectionViewController: UICollectionViewController {
         return images.count
     }
     
-    //3
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath)
-//        cell.backgroundColor = UIColor.black
         let imageView = UIImageView(frame: cell.contentView.frame)
         imageView.image = images[indexPath.row]
         cell.contentView.addSubview(imageView)
