@@ -10,16 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    let cols = 4
-    let rows = 4
+    let cols = 2
+    let rows = 2
     
     let puzzleSnapTolerance = CGFloat(20)
     
     var bigImage: UIImageView? = nil
     var puzzleBox: UIView? = nil
     
-    var selectedImage: UIImage?
-
+    var selectedImage: UIImage? = nil
+    
+    var pieces: [PuzzlePiece]? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,26 +32,25 @@ class ViewController: UIViewController {
             bigImage?.image = selectedImage
         }
         
-        let pieces = splitImage(bigImage)
+        pieces = splitImage(bigImage)
         
-        for p in pieces {
+        for p in pieces! {
             self.view.addSubview(p)
             let gesture = UIPanGestureRecognizer(target: self, action: #selector(ViewController.wasDragged(_:)))
             p.addGestureRecognizer(gesture)
             p.isUserInteractionEnabled = true
             p.frame = CGRect(origin: randomizePosition(viewFrame: p.frame, parentViewFrame: (puzzleBox?.frame)!), size: p.frame.size)
         }
+        
     }
-
+    
     @objc func wasDragged(_ gesture: UIPanGestureRecognizer) {
         let translation = gesture.translation(in: self.view)
         let draggedPuzzleView = gesture.view! as! PuzzlePiece
         
-        if (draggedPuzzleView.isDraggable) {
-            draggedPuzzleView.superview?.bringSubviewToFront(draggedPuzzleView)
-            draggedPuzzleView.center = CGPoint(x: draggedPuzzleView.center.x + translation.x, y: draggedPuzzleView.center.y + translation.y)
-            gesture.setTranslation(CGPoint.zero, in: self.view)
-        }
+        draggedPuzzleView.center = CGPoint(x: draggedPuzzleView.center.x + translation.x, y: draggedPuzzleView.center.y + translation.y)
+        gesture.setTranslation(CGPoint.zero, in: self.view)
+        draggedPuzzleView.superview?.bringSubviewToFront(draggedPuzzleView)
         
         if (gesture.state == UIGestureRecognizer.State.ended) {
             if (abs(draggedPuzzleView.frame.minX - draggedPuzzleView.targetX) <= puzzleSnapTolerance
@@ -58,7 +59,14 @@ class ViewController: UIViewController {
                 draggedPuzzleView.isDraggable = false
                 draggedPuzzleView.removeGestureRecognizer(gesture)
             }
+            if (isGameOver(pieces!)) {
+                _ = navigationController?.popViewController(animated: true)
+            }
         }
+    }
+    
+    func isGameOver(_ pieces: [PuzzlePiece]) -> Bool {
+        return pieces.allSatisfy{ !$0.isDraggable }
     }
     
     func splitImage(_ imageView: UIImageView?) -> [PuzzlePiece] {
@@ -108,104 +116,86 @@ class ViewController: UIViewController {
         }
         return pieces
     }
-
-}
-
-func makePuzzlePath(r: Int,
-                    c: Int,
-                    rows: Int,
-                    cols: Int,
-                    pieceFrame: CGRect,
-                    bumpSize: CGFloat,
-                    singlePieceHeight: CGFloat,
-                    viewOffsetX: CGFloat,
-                    viewOffsetY: CGFloat) -> CGPath {
-    let path = CGMutablePath()
-    path.move(to: CGPoint(x: viewOffsetX, y: viewOffsetY))
-    if (r == 0) {
-        // top side piece
-        path.addLine(to: CGPoint(x: pieceFrame.width, y: viewOffsetY))
-    } else {
-        // top bump
-        path.addLine(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 3, y: viewOffsetY))
-        path.addCurve(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 2 / 3, y: viewOffsetY) ,
-                      control1: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 6, y: viewOffsetY + bumpSize),
-                      control2: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 5 / 6, y: viewOffsetY + bumpSize))
-        path.addLine(to: CGPoint(x: pieceFrame.width, y: viewOffsetY))
-    }
-    if (c == cols - 1) {
-        // right side piece
-        path.addLine(to: CGPoint(x: pieceFrame.width, y: -pieceFrame.height))
-    } else {
-        // right bump
-        path.addLine(to: CGPoint(x: pieceFrame.width, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 3)))
-        path.addCurve(to: CGPoint(x: pieceFrame.width, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 2 / 3)),
-                      control1: CGPoint(x: pieceFrame.width - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 6)),
-                      control2: CGPoint(x: pieceFrame.width - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 5 / 6 )))
-        path.addLine(to: CGPoint(x: pieceFrame.width, y: -singlePieceHeight + viewOffsetY))
-    }
-    if (r == rows - 1) {
-        // bottom side piece
-        path.addLine(to: CGPoint(x: viewOffsetX, y: -pieceFrame.height + viewOffsetY))
-    } else {
-        // bottom bump
-        path.addLine(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 2 / 3, y: -singlePieceHeight + viewOffsetY))
-        path.addCurve(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 3, y: -singlePieceHeight + viewOffsetY),
-                      control1: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 5 / 6, y: -singlePieceHeight + viewOffsetY + bumpSize),
-                      control2: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 6, y: -singlePieceHeight + viewOffsetY + bumpSize))
-        path.addLine(to: CGPoint(x: viewOffsetX, y: -singlePieceHeight + viewOffsetY))
-    }
-    if (c == 0) {
-        // left side piece
-        // OK: closing this path with draw a straight line
-    } else {
-        // left bump
-        path.addLine(to: CGPoint(x: viewOffsetX, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 2 / 3)))
-        path.addCurve(to: CGPoint(x: viewOffsetX, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 3)),
-                      control1: CGPoint(x: viewOffsetX - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 5 / 6)),
-                      control2: CGPoint(x: viewOffsetX - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 6)))
-    }
-    path.closeSubpath()
-    return path
-}
-
-func randomizePosition(viewFrame: CGRect, parentViewFrame: CGRect) -> CGPoint {
-    let minX = parentViewFrame.minX
-    let minY = parentViewFrame.minY
-    let maxX = parentViewFrame.maxX - viewFrame.width
-    let maxY = parentViewFrame.maxY - viewFrame.height
     
-    return CGPoint(x: CGFloat.random(in: minX..<maxX),
-                   y: CGFloat.random(in: minY..<maxY))
-}
-
-extension UIView {
-    func mask(withRect rect: CGRect, inverse: Bool = false) {
-        let path = UIBezierPath(rect: rect)
-        let maskLayer = CAShapeLayer()
-        
-        if inverse {
-            path.append(UIBezierPath(rect: self.bounds))
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+    func makePuzzlePath(r: Int,
+                        c: Int,
+                        rows: Int,
+                        cols: Int,
+                        pieceFrame: CGRect,
+                        bumpSize: CGFloat,
+                        singlePieceHeight: CGFloat,
+                        viewOffsetX: CGFloat,
+                        viewOffsetY: CGFloat) -> CGPath {
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: viewOffsetX, y: viewOffsetY))
+        if (r == 0) {
+            // top side piece
+            path.addLine(to: CGPoint(x: pieceFrame.width, y: viewOffsetY))
+        } else {
+            // top bump
+            path.addLine(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 3, y: viewOffsetY))
+            path.addCurve(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 2 / 3, y: viewOffsetY) ,
+                          control1: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 6, y: viewOffsetY + bumpSize),
+                          control2: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 5 / 6, y: viewOffsetY + bumpSize))
+            path.addLine(to: CGPoint(x: pieceFrame.width, y: viewOffsetY))
         }
-        
-        maskLayer.path = path.cgPath
-        
-        self.layer.mask = maskLayer
+        if (c == cols - 1) {
+            // right side piece
+            path.addLine(to: CGPoint(x: pieceFrame.width, y: -pieceFrame.height))
+        } else {
+            // right bump
+            path.addLine(to: CGPoint(x: pieceFrame.width, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 3)))
+            path.addCurve(to: CGPoint(x: pieceFrame.width, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 2 / 3)),
+                          control1: CGPoint(x: pieceFrame.width - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 6)),
+                          control2: CGPoint(x: pieceFrame.width - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 5 / 6 )))
+            path.addLine(to: CGPoint(x: pieceFrame.width, y: -singlePieceHeight + viewOffsetY))
+        }
+        if (r == rows - 1) {
+            // bottom side piece
+            path.addLine(to: CGPoint(x: viewOffsetX, y: -pieceFrame.height + viewOffsetY))
+        } else {
+            // bottom bump
+            path.addLine(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 2 / 3, y: -singlePieceHeight + viewOffsetY))
+            path.addCurve(to: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 3, y: -singlePieceHeight + viewOffsetY),
+                          control1: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 5 / 6, y: -singlePieceHeight + viewOffsetY + bumpSize),
+                          control2: CGPoint(x: viewOffsetX + (pieceFrame.width - viewOffsetX) * 1 / 6, y: -singlePieceHeight + viewOffsetY + bumpSize))
+            path.addLine(to: CGPoint(x: viewOffsetX, y: -singlePieceHeight + viewOffsetY))
+        }
+        if (c == 0) {
+            // left side piece
+            // OK: closing this path with draw a straight line
+        } else {
+            // left bump
+            path.addLine(to: CGPoint(x: viewOffsetX, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 2 / 3)))
+            path.addCurve(to: CGPoint(x: viewOffsetX, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 3)),
+                          control1: CGPoint(x: viewOffsetX - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 5 / 6)),
+                          control2: CGPoint(x: viewOffsetX - bumpSize, y: -(-viewOffsetY + (pieceFrame.height - viewOffsetY) * 1 / 6)))
+        }
+        path.closeSubpath()
+        return path
     }
     
-    func mask(withPath path: UIBezierPath, inverse: Bool = false) {
-        let path = path
-        let maskLayer = CAShapeLayer()
+    func randomizePosition(viewFrame: CGRect, parentViewFrame: CGRect) -> CGPoint {
+        let minX = parentViewFrame.minX
+        let minY = parentViewFrame.minY
+        let maxX = parentViewFrame.maxX - viewFrame.width
+        let maxY = parentViewFrame.maxY - viewFrame.height
         
-        if inverse {
-            path.append(UIBezierPath(rect: self.bounds))
-            maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
+        var rangeX: Range<CGFloat>? = nil
+        var rangeY: Range<CGFloat>? = nil
+        if (minX < maxX) {
+            rangeX = minX..<maxX
+        } else {
+            rangeX = maxX..<minX
+        }
+        if (minY < maxY) {
+            rangeY = minY..<maxY
+        } else {
+            rangeY = maxY..<minY
         }
         
-        maskLayer.path = path.cgPath
-        
-        self.layer.mask = maskLayer
+        return CGPoint(x: CGFloat.random(in: rangeX!),
+                       y: CGFloat.random(in: rangeY!))
     }
+    
 }
-
