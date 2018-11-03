@@ -17,10 +17,6 @@ class ImagesCollectionViewController: UICollectionViewController {
     
     var selectedImage: UIImage?
     
-    override func viewDidLoad() {
-        
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let data = selectedImage
         if let destinationViewController = segue.destination as? ViewController {
@@ -32,7 +28,6 @@ class ImagesCollectionViewController: UICollectionViewController {
         return 1
     }
     
-    //2
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
         return images.count
@@ -42,6 +37,7 @@ class ImagesCollectionViewController: UICollectionViewController {
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
                                                       for: indexPath)
+        cell.isUserInteractionEnabled = true
         let imageView = UIImageView(frame: cell.contentView.frame)
         imageView.image = images[indexPath.row]
         cell.contentView.addSubview(imageView)
@@ -49,7 +45,7 @@ class ImagesCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath) {
+                                 didSelectItemAt indexPath: IndexPath) {
         selectedImage = images[indexPath.item]
         performSegue(withIdentifier: "openImage", sender: self)
     }
